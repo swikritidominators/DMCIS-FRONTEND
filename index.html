@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Delhi Monsoon Command & Intelligence System (DCIMS)</title>
+
+  <!-- Leaflet Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>Delhi Monsoon Command & Intelligence System</h1>
+  <p>AI-Driven Ward-Level Flood & Drain Failure Prediction Platform</p>
+</header>
+
+<!-- KPI DASHBOARD -->
+<section class="dashboard">
+  <div class="card">
+    <h3>Rainfall Status (IMD)</h3>
+    <p class="value" id="rainStatus">Moderate</p>
+  </div>
+
+  <div class="card">
+    <h3>High Risk Wards</h3>
+    <p class="value" id="highRiskCount">0</p>
+  </div>
+
+  <div class="card">
+    <h3>System Status</h3>
+    <p class="value">Active</p>
+  </div>
+</section>
+
+<!-- MAP -->
+<section class="map-section">
+  <h2>Real-Time Rainfall & Flood Hotspot Map (Delhi)</h2>
+  <div id="map"></div>
+</section>
+
+<!-- MPI TABLE -->
+<section class="table-section">
+  <h2>Monsoon Preparedness Index (MPI) — Ward Level</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Ward</th>
+        <th>Zone</th>
+        <th>MPI</th>
+        <th>Flood Risk</th>
+      </tr>
+    </thead>
+    <tbody id="wardTable"></tbody>
+  </table>
+</section>
+
+<!-- DRAIN CHOKING AI -->
+<section class="table-section">
+  <h2>AI-Based Drain Choking Probability (Pre-Rain)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Ward</th>
+        <th>Tree Density</th>
+        <th>Market Density</th>
+        <th>Choking Risk</th>
+      </tr>
+    </thead>
+    <tbody id="drainTable"></tbody>
+  </table>
+</section>
+
+<!-- RED ZONE BOARD -->
+<section class="policy-board">
+  <h2>Minister-Facing RED ZONE BOARD</h2>
+  <ul id="redZoneList"></ul>
+  <p class="policy-note">
+    💡 Policy Insight: Investing ₹10 Cr in top wards can reduce flood risk by up to <b>35%</b>.
+  </p>
+</section>
+
+<!-- CITIZEN REPORTING -->
+<section class="citizen">
+  <h2>Citizen Water-Logging Report (Demo)</h2>
+  <label>Water Depth:</label>
+  <select id="depth">
+    <option>Ankle</option>
+    <option>Knee</option>
+    <option>Waist</option>
+  </select>
+
+  <label>Duration (hrs):</label>
+  <input type="range" min="1" max="12" value="2">
+
+  <button onclick="submitComplaint()">Submit Report</button>
+</section>
+
+<!-- ACTION -->
+<section class="action">
+  <button onclick="simulateRain()">Simulate Extreme Rainfall Event</button>
+</section>
+
+<footer>
+  <p>DCIMS | IMD + Civic Data + AI-Based Decision Support System</p>
+</footer>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
