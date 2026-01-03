@@ -38,7 +38,15 @@ function loadTable() {
     `;
   });
 
-  document.getElementById("highRiskCount").innerText = highRisk;
+  const highRiskEl = document.getElementById("highRiskCount");
+highRiskEl.innerText = highRisk;
+
+if (highRisk > 0) {
+  highRiskEl.classList.add("zero");
+} else {
+  highRiskEl.classList.remove("zero");
+}
+
 }
 
 /********************************
