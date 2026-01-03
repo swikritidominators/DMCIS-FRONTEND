@@ -94,7 +94,9 @@ function loadRedZones() {
  * RAIN SIMULATION
  ********************************/
 function simulateRain() {
-  document.getElementById("rainStatus").innerText = "Heavy Rain Alert";
+  const rainEl = document.getElementById("rainStatus");
+  rainEl.innerText = "Heavy Rain Alert";
+  rainEl.className = "value zero"; // red alert
 
   wards.forEach(w => {
     w.mpi -= Math.floor(Math.random() * 8);
@@ -107,6 +109,17 @@ function simulateRain() {
   loadAll();
   alert("Extreme rainfall simulated. AI risk updated.");
 }
+
+  wards.forEach(w => {
+    w.mpi -= Math.floor(Math.random() * 8);
+
+    if (w.mpi < 45) w.risk = "High";
+    else if (w.mpi < 60) w.risk = "Medium";
+    else w.risk = "Low";
+  });
+
+  loadAll();
+  alert("Extreme rainfall simulated. AI risk updated.");
 
 /********************************
  * COMPLAINT SYSTEM
