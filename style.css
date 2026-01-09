@@ -939,3 +939,163 @@ header {
     margin-bottom: 5px;     /* Slight adjustment for alignment */
     display: inline-block;
 }
+/* =========================================
+   MOBILE RESPONSIVENESS (Add to bottom of style.css)
+   ========================================= */
+
+@media (max-width: 768px) {
+
+    /* --- 1. Header & Logo Adjustments --- */
+    header {
+        padding: 80px 15px 30px 15px; /* Adjust padding for mobile */
+    }
+
+    header h1 {
+        font-size: 1.4rem; /* Smaller title font */
+        line-height: 1.3;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .header-logo {
+        height: 50px; /* Smaller logo */
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
+
+    .lang-toggle {
+        top: 10px;
+        right: 10px;
+        transform: scale(0.8); /* Make translate button smaller */
+    }
+
+    /* --- 2. Navigation Bar (Stack Vertical) --- */
+    .main-nav {
+        position: relative; /* Unsticky on mobile if it takes too much screen space */
+    }
+
+    .main-nav ul {
+        flex-direction: column; /* Stack links vertically */
+        padding: 0;
+    }
+
+    .main-nav ul li {
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .main-nav ul li a {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    /* --- 3. Marquee (Scrolling Text) --- */
+    .marquee-label {
+        font-size: 0.8rem;
+        padding: 0 10px;
+    }
+    
+    .marquee-content {
+        font-size: 0.9rem;
+    }
+
+    /* --- 4. Map Section --- */
+    .map-section {
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .map-controls {
+        flex-direction: column; /* Stack search input and button */
+    }
+
+    .map-controls input, .map-controls button {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    #map {
+        height: 350px; /* Reduce map height for mobile screens */
+    }
+
+    /* --- 5. Tables (Enable Horizontal Scroll) --- */
+    .table-section {
+        margin: 10px;
+        padding: 10px;
+        overflow-x: auto; /* Adds scrollbar if table is too wide */
+    }
+
+    table {
+        min-width: 600px; /* Forces table to keep shape, user scrolls to see */
+        font-size: 0.9rem;
+    }
+
+    /* --- 6. Minister & Stats Dashboard --- */
+    .minister-grid {
+        flex-direction: column; /* Stack cards */
+        padding: 10px;
+    }
+
+    .m-card {
+        min-width: auto;
+        width: 100%; /* Full width */
+        margin-bottom: 15px;
+    }
+
+    .stats-grid {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .stat-card {
+        width: 90%; /* nearly full width */
+    }
+
+    /* --- 7. Citizen Form & Notices --- */
+    .citizen-notice-container {
+        flex-direction: column; /* Stack them */
+        margin: 10px;
+    }
+
+    .citizen-section-left, .notice-board-section {
+        width: 100%; /* Full width */
+        min-width: auto;
+        padding: 15px;
+        box-sizing: border-box; /* Ensures padding doesn't break width */
+    }
+    
+    .form-container {
+        padding: 15px;
+    }
+
+    /* --- 8. Modals (Popups) --- */
+    .modal-content {
+        width: 95%; /* Use almost full screen width */
+        max-height: 90vh; /* Prevent it from being taller than screen */
+        overflow-y: auto; /* Scroll inside modal if needed */
+        padding: 20px;
+    }
+
+    .kpi-grid {
+        grid-template-columns: 1fr; /* 1 column instead of 2 */
+    }
+    
+    /* --- 9. Schemes Marquee --- */
+    .schemes-marquee-container {
+        height: 120px; /* Smaller height */
+    }
+    
+    .schemes-content img {
+        height: 90px; /* Smaller images */
+    }
+
+    /* --- 10. Chatbot --- */
+    .chatbot-container {
+        width: 90%; /* Fit screen width */
+        right: 5%;
+        bottom: 10px;
+    }
+}
