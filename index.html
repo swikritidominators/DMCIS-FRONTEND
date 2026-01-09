@@ -1,109 +1,399 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Delhi Monsoon Command & Intelligence System (DCIMS)</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delhi Monsoon Command & Intelligence System (DCIMS)</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <link rel="stylesheet" href="style.css">
 
-  <!-- Leaflet Map -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-
- <link rel="stylesheet" href="style.css?v=2">
+    <script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en', 
+            /* Added: ur (Urdu), pa (Punjabi), bn (Bengali), ta (Tamil), te (Telugu), or (Odia) */
+            includedLanguages: 'en,hi,ur,pa,bn,ta,te,or'
+        }, 'google_translate_element');
+    }
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </head>
 <body>
-
+<div class="gov-india-strip">
+    <div class="flag-colors">
+        <span class="saffron"></span>
+        <span class="white"></span>
+        <span class="green"></span>
+    </div>
+</div>
 <header>
-  <h1>Delhi Monsoon Command & Intelligence System</h1>
-  <p>AI-Driven Ward-Level Flood & Drain Failure Prediction Platform</p>
+   <div class="header-tricolour"></div>
+   <h1>
+    <img src="logo.png" alt="DMCIS Logo" class="header-logo"> 
+    Delhi Monsoon Command & Intelligence System
+</h1>
+   <div id="google_translate_element" class="lang-toggle"></div>
+   <h1>Delhi Monsoon Command & Intelligence System</h1>
+    <p>AI-Driven Ward-Level Flood & Drain Failure Prediction Platform</p>
+    <p class="live-indicator">🔴 LIVE SYSTEM | <span id="timestamp">Fetching time...</span></p>
 </header>
+<div class="marquee-container">
+    <div class="marquee-label">⚠️ RED ZONES (CRITICAL):</div>
+    <div class="marquee-wrapper">
+        <div class="marquee-content" id="high-alert-marquee">
+            Loading critical ward data...
+        </div>
+    </div>
+</div>
+<nav class="main-nav">
+    <ul>
+    <li><a href="javascript:void(0)" onclick="navigateTo('home')">HOME</a></li>
+    <li><a href="javascript:void(0)" onclick="navigateTo('about')">ABOUT US</a></li>
+    <li><a href="javascript:void(0)" onclick="navigateTo('citizen')">CITIZEN PORTAL</a></li>
+    <li><a href="javascript:void(0)" onclick="navigateTo('official')">OFFICIAL DASHBOARD</a></li>
+    <li><a href="javascript:void(0)" onclick="navigateTo('notices')">NOTICES</a></li>
 
-<!-- KPI DASHBOARD -->
-<section class="dashboard">
-  <div class="card">
-    <h3>Rainfall Status (IMD)</h3>
-    <p class="value moderate" id="rainStatus">Moderate</p>
-  </div>
-
-  <div class="card">
-    <h3>High Risk Wards</h3>
-    <p class="value" id="highRiskCount">0</p>
-  </div>
-
-  <div class="card">
-    <h3>System Status</h3>
-    <p class="value active">Active</p>
-  </div>
-</section>
-
-<!-- MAP -->
+    <li><a href="javascript:void(0)" onclick="openDownloadsModal()">DOWNLOADS</a></li>
+    
+<li><a href="javascript:void(0)" onclick="openLinksModal()">LINKS</a></li>
+</ul>
+</nav>
+<div class="schemes-marquee-container">
+    <div class="marquee-label"> DELHI GOVT SCHEMES</div>
+    <div class="schemes-wrapper">
+        <div class="schemes-content">
+            <img src="s1.jpg" alt="Scheme 1">
+            <img src="s2.png" alt="Scheme 2">
+            <img src="s3.png" alt="Scheme 3">
+            <img src="s4.png" alt="Scheme 4">
+            <img src="s5.png" alt="Scheme 5">
+            <img src="s6.png" alt="Scheme 6">
+            <img src="s7.png" alt="Scheme 7">
+        </div>
+    </div>
+</div>
 <section class="map-section">
-  <h2>Real-Time Rainfall & Flood Hotspot Map (Delhi)</h2>
-  <div id="map"></div>
+    <h2>Real-Time Rainfall & Flood Hotspot Map (Delhi Only)</h2>
+    <div class="map-controls">
+        <input type="text" id="wardSearch" placeholder="Search Ward (e.g., Rohini, Karol Bagh)...">
+        <button onclick="searchWard()">Search & Locate</button>
+    </div>
+    <div id="map"></div>
 </section>
 
-<!-- MPI TABLE -->
+<div id="drillDownModal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeDrillDown()">×</span>
+        <h2 id="modal-ward-name">Ward Details</h2>
+        <div class="kpi-grid">
+            <div class="kpi-box"><h4>MPI Score</h4><p id="modal-mpi">--</p></div>
+            <div class="kpi-box"><h4>Drain Risk (AI)</h4><p id="modal-risk">--</p></div>
+            <div class="kpi-box"><h4>Past Flood Count</h4><p id="modal-flood">--</p></div>
+            <div class="kpi-box"><h4>Tree Density</h4><p id="modal-tree">--</p></div>
+            <div class="kpi-box"><h4>Market Density</h4><p id="modal-market">--</p></div>
+            <div class="kpi-box"><h4>Responsible Officer</h4><p id="modal-officer">--</p></div>
+        </div>
+    </div>
+</div>
+<div id="downloadsModal" class="modal hidden">
+   <div class="modal-content download-modal-content">
+       <span class="close-btn" onclick="closeDownloadsModal()">×</span>
+       <h2>📥 Download Center</h2>
+       <p>Select a file to download:</p>
+       
+       <div class="download-list">
+           <a href="DMCIS.pdf" download="DMCIS_Magazine.pdf" class="download-item">
+               <div class="icon">📕</div>
+               <div class="details">
+                   <span class="title">E-Magazine: Monsoon Resilience</span>
+                   <span class="meta">PDF Document | 2.4 MB</span>
+               </div>
+               <div class="action-arrow">⬇️</div>
+           </a>
+
+           </div>
+   </div>
+</div>
+<div id="linksModal" class="modal hidden">
+    <div class="modal-content download-modal-content">
+        <span class="close-btn" onclick="closeLinksModal()">×</span>
+        <h2>🔗 External Resources</h2>
+        <p>Official Portals & Research Papers:</p>
+        
+        <div class="download-list">
+            
+            <a href="https://mausam.imd.gov.in/newdelhi/" target="_blank" class="download-item">
+                <div class="icon">🌦️</div>
+                <div class="details">
+                    <span class="title">IMD New Delhi</span>
+                    <span class="meta">Official Weather Forecast</span>
+                </div>
+                <div class="action-arrow">↗️</div>
+            </a>
+
+            <a href="https://mcdonline.nic.in/portal/zones" target="_blank" class="download-item">
+                <div class="icon">🏢</div>
+                <div class="details">
+                    <span class="title">MCD Municipal Zones</span>
+                    <span class="meta">Zone Info & Services</span>
+                </div>
+                <div class="action-arrow">↗️</div>
+            </a>
+
+            <a href="https://ddma.delhi.gov.in/ddma/floods" target="_blank" class="download-item">
+                <div class="icon">🆘</div>
+                <div class="details">
+                    <span class="title">DDMA Flood Management</span>
+                    <span class="meta">Disaster Management Authority</span>
+                </div>
+                <div class="action-arrow">↗️</div>
+            </a>
+
+            <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=10320349" target="_blank" class="download-item">
+                <div class="icon">📑</div>
+                <div class="details">
+                    <span class="title">IEEE Research Paper</span>
+                    <span class="meta">Technical Reference Document</span>
+                </div>
+                <div class="action-arrow">↗️</div>
+            </a>
+
+            <a href="https://drive.google.com/file/d/1Y9asKOuPzIdeA1HnFTnGHm7VRul472X4/view?usp=sharing" target="_blank" class="download-item">
+                <div class="icon">📂</div>
+                <div class="details">
+                    <span class="title">Project Report / Docs</span>
+                    <span class="meta">View on Google Drive</span>
+                </div>
+                <div class="action-arrow">↗️</div>
+            </a>
+
+        </div>
+    </div>
+</div>
 <section class="table-section">
-  <h2>Monsoon Preparedness Index (MPI) — Ward Level</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Ward</th>
-        <th>Zone</th>
-        <th>MPI</th>
-        <th>Flood Risk</th>
-      </tr>
-    </thead>
-    <tbody id="wardTable"></tbody>
-  </table>
+    <h2>Monsoon Preparedness Index (MPI) - Ward Level</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Ward Name</th>
+                <th>Zone</th>
+                <th>MPI Score</th>
+                <th>Preparedness Level</th>
+                <th>Flood Risk</th>
+            </tr>
+        </thead>
+        <tbody id="mpiTable"></tbody>
+    </table>
 </section>
 
-<!-- DRAIN CHOKING AI -->
 <section class="table-section">
-  <h2>AI-Based Drain Choking Probability (Pre-Rain)</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Ward</th>
-        <th>Tree Density (tress/ha)</th>
-        <th>Market Density (markets/km²)</th>
-        <th>Choking Risk</th>
-      </tr>
-    </thead>
-    <tbody id="drainTable"></tbody>
-  </table>
+    <h2>AI-Based Drain Choking Probability (Live Analysis)</h2>
+    <p><i>Analysis combines static infrastructure data with live rainfall intensity.</i></p>
+    <table>
+        <thead>
+            <tr>
+                <th>Ward</th>
+                <th>Tree Density (trees/ha)</th>
+                <th>Market Density (mkts/km²)</th>
+                <th>Choking Probability (AI)</th>
+                <th>Action Required</th>
+            </tr>
+        </thead>
+        <tbody id="drainTable"></tbody>
+    </table>
+</section>
+<div class="citizen-notice-container">
+
+    <section class="citizen-section-left">
+        <h2>📢 Citizen Water Logging Report</h2>
+        <div class="form-container">
+            <form id="citizenForm" onsubmit="submitComplaint(event)">
+                <input type="text" id="c-name" placeholder="Full Name" required>
+                <input type="tel" id="c-phone" pattern="[0-9]{10}" placeholder="10-digit Mobile Number" required>
+                
+                <select id="c-ward" required>
+                    <option value="">Select Ward / Zone</option>
+                </select>
+
+                <select id="c-severity" required>
+                    <option value="">Select Severity</option>
+                    <option value="Low">Low (Ankle Deep)</option>
+                    <option value="Medium">Medium (Knee Deep)</option>
+                    <option value="High">High (Waist Deep)</option>
+                </select>
+
+                <label>Upload Photo:</label>
+                <input type="file" accept="image/*" required>
+
+                <textarea placeholder="Description (e.g., Near Metro Station gate 2...)" rows="3" required></textarea>
+                
+                <button type="submit" class="submit-btn">Submit Report</button>
+            </form>
+            <div id="complaint-status" class="status-box hidden"></div>
+        </div>
+    </section>
+
+    <section id="notices-section" class="notice-board-section">
+        <div class="notice-header">
+            <h2>📌 OFFICIAL NOTICES & ADVISORIES</h2>
+        </div>
+        <div class="notice-content">
+            <ul class="notice-list">
+                <li>
+                    <a href="notice1.pdf" target="_blank">
+                        <span class="notice-badge new">NEW</span>
+                        <div class="notice-details">
+                            <span class="notice-date">10 Jan 2026</span>
+                            <span class="notice-title">Citizen Advisory: Drainage Repair & Water-Logging Mitigation</span>
+                        </div>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="notice2.pdf" target="_blank">
+                        <span class="notice-badge urgent">URGENT</span>
+                        <div class="notice-details">
+                            <span class="notice-date">11 Jan 2026 </span>
+                            <span class="notice-title">Deployment of Team for Flood Response</span>
+                        </div>
+                    </a>
+                </li>
+                 <li>
+                    <a href="ns.pdf" target="_blank">
+                        <span class="notice-badge">URGENT</span>
+                        <div class="notice-details">
+                            <span class="notice-date">11 Dec 2025</span>
+                            <span class="notice-title"> Activation of Emergency Response</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="np.pdf" target="_blank">
+                        <span class="notice-badge">PREPARATION</span>
+                        <div class="notice-details">
+                            <span class="notice-date">12 Dec 2025</span>
+                            <span class="notice-title">Monsoon Preparedness Notice</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="DMCIS_FAQs.pdf" target="_blank">
+                        <span class="notice-badge info">INFO</span>
+                        <div class="notice-details">
+                            <span class="notice-date">12 Jan 2026</span>
+                            <span class="notice-title">DMCIS Frequently Asked Questions (FAQs)</span>
+                        </div>
+                    </a>
+                </li>
+            
+        
+            </ul>
+        </div>
+    </section>
+
+</div>
+
+<section class="historical-data">
+    <h2>📊 MCD 311 Historical Data Integration</h2>
+    <p>Live sync with <a href="https://311.mcd.gov.in/" target="_blank">311.mcd.gov.in</a></p>
+    <div class="stats-grid">
+        <div class="stat-card"><h3>Pending Reports</h3><p class="count red">1,240</p></div>
+        <div class="stat-card"><h3>Resolved (24h)</h3><p class="count green">850</p></div>
+        <div class="stat-card"><h3>Avg. Resolution Time</h3><p class="count blue">4.5 Hrs</p></div>
+    </div>
 </section>
 
-<!-- RED ZONE BOARD -->
-<section class="policy-board">
-  <h2>Minister-Facing RED ZONE BOARD</h2>
-  <ul id="redZoneList"></ul>
-  <p class="policy-note">
-    💡 Policy Insight: Investing ₹10 Cr in top wards can reduce flood risk by up to <b>35%</b>.
-  </p>
+<section class="minister-dashboard">
+    <div class="red-zone-header">
+        <h2>🚨 MINISTER-FACING RED ZONE BOARD 🚨</h2>
+        <p>Live Critical Alerts & Responsible Officers</p>
+    </div>
+    <div class="minister-grid">
+        <div class="m-card critical">
+            <h3>Top 5 Critical Wards</h3>
+            <ul id="critical-wards-list">
+                </ul>
+        </div>
+        <div class="m-card urgent">
+            <h3>⚠️ Drains Needing Desilting (Today)</h3>
+            <ul id="desilting-list">
+                </ul>
+        </div>
+        <div class="m-card forecast">
+            <h3>🌊 Expected Flood Zones (Next 6 Hrs)</h3>
+            <div id="forecast-data">Analyzing Cloud Data...</div>
+        </div>
+    </div>
+</section>
+<section class="about-us-section">
+    <h2>About Us - Team Dominators</h2>
+    <div class="team-grid">
+        <div class="team-card">
+            <div class="img-container">
+                <img src="swikriti.jpg" alt="Swikriti Singh">
+            </div>
+            <h3>Swikriti Singh</h3>
+            <p class="designation">Front-End Developer</p>
+            <p class="description">I am an enthusiastic learner who values sincerity, creativity and teamwork. These qualities have helped me develop patience, confidence, and a deeper appreciation for various art forms.</p>
+            <p class="email">✉️ <a href="mailto:singhswikriti1@gmail.com">singhswikriti1@gmail.com</a></p>
+            <a href="https://www.linkedin.com/in/swikriti-singh-4b2396399?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">Visit my LinkedIn Profile</a>
+
+        </div>
+
+        <div class="team-card">
+            <div class="img-container">
+                <img src="sonali.jpg" alt="Sonali Kumari Jha">
+            </div>
+            <h3>Sonali Kumari Jha</h3>
+            <p class="designation">Back-End Developer</p>
+            <p class="description">I possess strong foundation in Python and Data Science while currently working on improving my technical skills and looking forward to opportunities where I can learn, contribute, and grow as a developer.</p>
+            <p class="email">✉️ <a href="mailto:kumarijhasonali@gmail.com">kumarijhasonali@gmail.com</a></p>
+            <a href="https://www.linkedin.com/in/sonali-kumari-jha-49961b37b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">Visit my Linkedin Profile</a>
+        </div>
+
+        <div class="team-card">
+            <div class="img-container">
+                 <img src="ria.png" alt="Ria Saraswat">
+            </div>
+            <h3>Ria Saraswat</h3>
+            <p class="designation">Database & Machine-Learning Developer</p>
+            <p class="description">With a deep knowledge of C++, I enjoy working with structured data, designing efficient databases and ML to solve real-world problems. I believe in learning by doing.</p>
+            <p class="email">✉️ <a href="riasaraswat2020@gmail.com">riasaraswat2020@gmail.com</a></p>
+            <a href="https://www.linkedin.com/in/ria-saraswat-604080362?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app">Visit my Linkedin Profile</a>
+            </div>
+    </div>
+</section>
+<section class="agenda-section">
+    <div class="agenda-content">
+        <h2>OUR AGENDA</h2>
+        <p>
+            Our agenda is to strengthen Delhi’s monsoon preparedness through <strong>data-driven planning</strong> and <strong>real-time intelligence</strong>. 
+            We aim to integrate ward-level data, AI-based risk prediction, and live monitoring to identify flood-prone areas, 
+            anticipate drain blockages, and support timely decision-making. By enabling coordination between authorities and citizens, 
+            our goal is to reduce urban flooding, improve response efficiency, and build a more resilient and climate-ready Delhi.
+        </p>
+    </div>
 </section>
 
-<!-- CITIZEN REPORTING -->
-<section class="citizen">
-  <h2>Citizen Water-Logging Report (Demo)</h2>
-  <label>Water Depth:</label>
-  <select id="depth">
-    <option>Ankle</option>
-    <option>Knee</option>
-    <option>Waist</option>
-  </select>
-
-  <label>Duration (hrs):</label>
-  <input type="range" min="1" max="12" value="2">
-
-  <button onclick="submitComplaint()">Submit Report</button>
-</section>
-
-<!-- ACTION -->
-<section class="action">
-  <button onclick="simulateRain()">Simulate Extreme Rainfall Event</button>
-</section>
+<div class="chatbot-container">
+    <div class="chat-header" onclick="toggleChat()">
+        🤖 DMCIS AI Assistant
+    </div>
+    <div id="chat-body" class="chat-body hidden">
+        <div id="chat-messages" class="chat-messages">
+            <p class="bot-msg">Hello! Ask me about flood risks in your area.</p>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Type here...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+</div>
 
 <footer>
-  <p>DCIMS | IMD + Civic Data + AI-Based Decision Support System</p>
+    <p>DMCIS 2026 | Unified MCD Control Room | <a href="#">Admin Login</a></p>
 </footer>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
