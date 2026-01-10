@@ -535,3 +535,39 @@ function closeLinksModal() {
         modal.classList.add("hidden");
     }
 }
+// STEP F3: Backend base URL (LOCAL for now)
+const API_BASE_URL = "http://localhost:5000";
+
+// Fetch ward data from backend
+fetch(`${API_BASE_URL}/api/wards`)
+  .then(response => response.json())
+  .then(data => {
+    console.log("Ward data received from backend:", data);
+    displayWards(data);
+  })
+  .catch(error => {
+    console.error("Error fetching ward data:", error);
+  });
+
+// Function to show data on UI
+function displayWards(wards) {
+  const tableBody = document.getElementById("wardTableBody");
+
+  if (!tableBody) {
+    console.warn("wardTableBody not found in HTML");
+    return;
+  }
+
+  tableBody.innerHTML = "";
+
+  wards.forEach(ward => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${ward.name}</td>
+      <td>${ward.zone}</td>
+      <td>${ward.mpi}</td>
+      <td>${ward.risk}</td>
+    `;
+    tableBody.appendChild(row);
+  });
+}
