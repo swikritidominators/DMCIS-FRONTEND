@@ -571,3 +571,27 @@ function displayWards(wards) {
     tableBody.appendChild(row);
   });
 }
+function predictDrainRisk() {
+  fetch("https://dmcis-backend.onrender.com/api/ai/drain-risk", {
+
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      mpi: 55,
+      treeDensity: 4,
+      marketDensity: 9
+    })
+  })
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("aiResult").innerHTML =
+        `AI Prediction → Risk Score: ${data.riskScore} (${data.riskLevel})`;
+    })
+    .catch(err => {
+      console.error(err);
+      alert("AI prediction failed");
+    });
+}
+

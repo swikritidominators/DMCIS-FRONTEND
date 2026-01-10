@@ -202,7 +202,12 @@
     </table>
 </section>
 <div class="citizen-notice-container">
-
+<button onclick="predictDrainRisk()">
+  Predict Drain Choking Risk (AI)
+</button>
+<div id="aiResult" style="margin-top:10px;font-weight:bold;"></div>
+<br>
+<br>
     <section class="citizen-section-left">
         <h2>📢 Citizen Water Logging Report</h2>
         <div class="form-container">
@@ -233,7 +238,9 @@
     </section>
 
     <section id="notices-section" class="notice-board-section">
+        <br>
         <div class="notice-header">
+            <br>
             <h2>📌 OFFICIAL NOTICES & ADVISORIES</h2>
         </div>
         <div class="notice-content">
