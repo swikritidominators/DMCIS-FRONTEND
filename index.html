@@ -20,6 +20,26 @@
 <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </head>
 <body>
+    <div id="login-overlay" class="login-overlay">
+    <div class="login-box">
+        <img src="logo.png" alt="DMCIS Logo" style="height: 80px; margin-bottom: 20px;">
+        <h2>Welcome to DMCIS</h2>
+        <p>Please select your login type to proceed:</p>
+        
+        <div class="login-buttons">
+            <button class="role-btn citizen-btn" onclick="selectRole('citizen')">
+                👥 Citizen Login
+            </button>
+            
+            <button class="role-btn cabinet-btn" onclick="selectRole('cabinet')">
+                🏛️ Cabinet / Official Login
+            </button>
+        </div>
+        <p style="font-size: 0.8em; color: #666; margin-top: 15px;">
+            *Cabinet Login requires authorization.
+        </p>
+    </div>
+</div>
 <div class="gov-india-strip">
     <div class="flag-colors">
         <span class="saffron"></span>
@@ -309,7 +329,7 @@
     </div>
 </section>
 
-<section class="minister-dashboard">
+<section id="minister-section" class="minister-dashboard hidden">
     <div class="red-zone-header">
         <h2>🚨 MINISTER-FACING RED ZONE BOARD 🚨</h2>
         <p>Live Critical Alerts & Responsible Officers</p>
@@ -328,6 +348,74 @@
         <div class="m-card forecast">
             <h3>🌊 Expected Flood Zones (Next 6 Hrs)</h3>
             <div id="forecast-data">Analyzing Cloud Data...</div>
+        </div>
+    </div>
+    <div class="minister-extended-panel">
+        
+        <div class="minister-panel-row">
+            <h3>✅ Live Resolution Feed (Real-Time)</h3>
+            <div class="live-feed-container">
+                <table class="minister-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Ward / Zone</th>
+                            <th>Issue Type</th>
+                            <th>Action Taken</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="live-resolution-table">
+                        <tr><td colspan="5">Connecting to Field Units...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="minister-panel-split">
+            
+            <div class="sub-panel resource-panel">
+                <h3>🚜 Resource Readiness Tracker</h3>
+                <div id="resource-grid" class="resource-grid">
+                    Loading Asset Data...
+                </div>
+            </div>
+
+            <div class="sub-panel coordination-panel">
+                <h3>🤝 Inter-Department Coordination (Live)</h3>
+                <p style="font-size:0.9em; margin-bottom:10px;">Live status from Allied Agencies</p>
+                
+                <div class="dept-row">
+                    <div class="dept-icon mcd">🏛️ MCD</div>
+                    <div class="dept-status">
+                        <span id="status-mcd" class="status-indicator active">Active</span>
+                        <span id="msg-mcd" class="status-text">Monitoring drain levels...</span>
+                    </div>
+                </div>
+
+                <div class="dept-row">
+                    <div class="dept-icon pwd">🛣️ PWD</div>
+                    <div class="dept-status">
+                        <span id="status-pwd" class="status-indicator warning">Busy</span>
+                        <span id="msg-pwd" class="status-text">Clearing debris on Ring Road...</span>
+                    </div>
+                </div>
+
+                <div class="dept-row">
+                    <div class="dept-icon police">👮 Traffic</div>
+                    <div class="dept-status">
+                        <span id="status-police" class="status-indicator alert">Alert</span>
+                        <span id="msg-police" class="status-text">Diverting traffic at ITO...</span>
+                    </div>
+                </div>
+
+                <div class="live-log">
+                    <h4>Latest Agency Comm Logs:</h4>
+                    <ul id="coordination-log">
+                        </ul>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>

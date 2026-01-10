@@ -637,3 +637,169 @@ window.onclick = function(event) {
     if (event.target == lModal) closeLinksModal();
     if (event.target == scModal) closeSchemeModal(); // <--- Add this
 }
+/* INSIDE script.js (Add to bottom) */
+
+/* ------------------------------------
+   LOGIN / ROLE SELECTION LOGIC
+   ------------------------------------ */
+
+function selectRole(role) {
+    const overlay = document.getElementById("login-overlay");
+    const ministerSection = document.getElementById("minister-section");
+
+    if (role === 'citizen') {
+        // 1. Hide the Minister Dashboard explicitly
+        if(ministerSection) ministerSection.classList.add("hidden");
+        
+        // 2. Remove the overlay to reveal the site
+        overlay.classList.add("fade-out");
+        
+        // Optional: Alert or Welcome message
+        // alert("Welcome, Citizen. Accessing Public Dashboard.");
+
+    } else if (role === 'cabinet') {
+        // 1. Simple Security Check
+        const password = prompt("🔐 Enter Cabinet Security Code (Hint: admin):");
+        
+        if (password === "admin") {
+            // 2. Show the Minister Dashboard
+            if(ministerSection) ministerSection.classList.remove("hidden");
+            
+            // 3. Remove the overlay
+            overlay.classList.add("fade-out");
+            
+            // 4. Auto-scroll to the Minister Board for convenience
+            setTimeout(() => {
+                ministerSection.scrollIntoView({ behavior: 'smooth' });
+            }, 600);
+        } else {
+            alert("❌ Access Denied: Incorrect Security Code.");
+        }
+    }
+}
+/* ============================================================
+   MINISTER DASHBOARD: LIVE FEATURES (DYNAMIC DATA SIMULATION)
+   ============================================================ */
+
+// --- DATASETS FOR SIMULATION ---
+const ISSUE_TYPES = ["Water Logging", "Clogged Drain", "Tree Fallen", "Pump Failure", "Road Cave-in"];
+const ACTIONS = ["Super-Sucker Deployed", "Field Team Sent", "Traffic Diverted", "Pump Restarted", "Debris Cleared"];
+const COORD_MSGS = {
+    mcd: ["Desilting in progress", "Zone control room active", "All pumps operational", "Staff shift change", "Waste removal ongoing"],
+    pwd: ["Ring Road clearing", "Pothole repair team dispatched", "Underpass drainage check", "Flyover inspection", "Machinery maintenance"],
+    police: ["Traffic smooth at ITO", "Diversion at Dhaula Kuan", "Barricading water-logged lanes", "Green corridor for emergency", "Crowd control at market"]
+};
+
+// 1. FEATURE: LIVE RESOLVED REPORTS FEED
+function simulateLiveResolutions() {
+    const tableBody = document.getElementById("live-resolution-table");
+    if (!tableBody || document.getElementById("minister-section").classList.contains("hidden")) return;
+
+    // Pick random ward from existing global 'wards' array
+    const randomWard = wards[Math.floor(Math.random() * wards.length)];
+    const issue = ISSUE_TYPES[Math.floor(Math.random() * ISSUE_TYPES.length)];
+    const action = ACTIONS[Math.floor(Math.random() * ACTIONS.length)];
+    const time = new Date().toLocaleTimeString();
+
+    // Create Row HTML
+    const row = `
+        <tr class="fade-in-row">
+            <td>${time}</td>
+            <td><strong>${randomWard.name}</strong> (${randomWard.zone})</td>
+            <td>${issue}</td>
+            <td style="color:#002D62;">${action}</td>
+            <td><span style="background:#d4edda; color:#155724; padding:2px 6px; border-radius:4px; font-weight:bold; font-size:0.8em;">RESOLVED</span></td>
+        </tr>
+    `;
+
+    // Add new row to top, remove last if > 10
+    tableBody.insertAdjacentHTML('afterbegin', row);
+    if (tableBody.rows.length > 8) tableBody.deleteRow(8);
+}
+
+// 2. FEATURE: RESOURCE READINESS TRACKER
+function updateResourceTracker() {
+    if (document.getElementById("minister-section").classList.contains("hidden")) return;
+
+    const grid = document.getElementById("resource-grid");
+    
+    // Simulate fluctuating data
+    const machinesTotal = 150;
+    const machinesActive = Math.floor(120 + Math.random() * 25); // Random between 120-145
+    
+    const pumpsTotal = 400;
+    const pumpsActive = Math.floor(350 + Math.random() * 40);
+
+    const staffTotal = 1200;
+    const staffActive = Math.floor(1000 + Math.random() * 150);
+
+    // Calculate Status
+    const getStatus = (active, total) => {
+        const ratio = active / total;
+        if(ratio > 0.9) return ['Full Strength', 'res-ready'];
+        if(ratio > 0.7) return ['Deployed', 'res-partial'];
+        return ['Shortage', 'res-short'];
+    };
+
+    const mStatus = getStatus(machinesActive, machinesTotal);
+    const pStatus = getStatus(pumpsActive, pumpsTotal);
+    const sStatus = getStatus(staffActive, staffTotal);
+
+    grid.innerHTML = `
+        <div class="resource-card">
+            <div class="res-count">${machinesActive}/${machinesTotal}</div>
+            <div class="res-label">Drain Machines</div>
+            <div class="res-status ${mStatus[1]}">${mStatus[0]}</div>
+        </div>
+        <div class="resource-card">
+            <div class="res-count">${pumpsActive}/${pumpsTotal}</div>
+            <div class="res-label">Water Pumps</div>
+            <div class="res-status ${pStatus[1]}">${pStatus[0]}</div>
+        </div>
+        <div class="resource-card">
+            <div class="res-count">${staffActive}/${staffTotal}</div>
+            <div class="res-label">Field Engineers</div>
+            <div class="res-status ${sStatus[1]}">${sStatus[0]}</div>
+        </div>
+        <div class="resource-card">
+            <div class="res-count">${Math.floor(Math.random() * 10)}</div>
+            <div class="res-label">Emergency Vans</div>
+            <div class="res-status res-partial">On Route</div>
+        </div>
+    `;
+}
+
+// 3. FEATURE: INTER-DEPT COORDINATION BOARD
+function updateCoordinationBoard() {
+    if (document.getElementById("minister-section").classList.contains("hidden")) return;
+
+    const agencies = ['mcd', 'pwd', 'police'];
+    const randomAgency = agencies[Math.floor(Math.random() * agencies.length)];
+    const messages = COORD_MSGS[randomAgency];
+    const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+
+    // Update the Text on the UI
+    document.getElementById(`msg-${randomAgency}`).innerText = randomMsg;
+    
+    // Randomly toggle status color for realism
+    const statuses = ['active', 'warning', 'alert'];
+    const newStatus = statuses[Math.floor(Math.random() * statuses.length)];
+    const statusEl = document.getElementById(`status-${randomAgency}`);
+    
+    statusEl.className = `status-indicator ${newStatus}`;
+    statusEl.innerText = newStatus === 'active' ? 'Active' : (newStatus === 'warning' ? 'Busy' : 'ALERT');
+
+    // Add to scrolling log
+    const logList = document.getElementById("coordination-log");
+    const time = new Date().toLocaleTimeString().split(" ")[0]; // Just HH:MM:SS
+    const logItem = `<li>[${time}] <strong>${randomAgency.toUpperCase()}:</strong> ${randomMsg}</li>`;
+    
+    logList.insertAdjacentHTML('afterbegin', logItem);
+    if (logList.children.length > 5) logList.removeChild(logList.lastElementChild);
+}
+
+// --- INITIALIZE INTERVALS ---
+// Start these loops but they only update DOM if minister section is visible
+setInterval(simulateLiveResolutions, 3500); // New resolved report every 3.5s
+setInterval(updateResourceTracker, 5000);   // Update resources every 5s
+setInterval(updateCoordinationBoard, 4000); // Update coordination every 4s

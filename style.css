@@ -1146,3 +1146,275 @@ header {
     object-fit: contain; /* Ensures the whole image is visible */
 }
 .notice-badge.urgent { background: #c0392b; }
+/* INSIDE style.css (Add to bottom) */
+
+/* --- LOGIN OVERLAY STYLES --- */
+.login-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 45, 98, 0.95); /* Deep Blue transparency */
+    z-index: 9999; /* Stays on top of everything */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.login-box {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    max-width: 400px;
+    width: 90%;
+    border-top: 5px solid #c0392b; /* Red accent */
+}
+
+.login-box h2 {
+    color: #002D62;
+    margin-top: 0;
+}
+
+.login-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.role-btn {
+    padding: 15px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.role-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.citizen-btn {
+    background: #27ae60; /* Green */
+    color: white;
+}
+
+.cabinet-btn {
+    background: #002D62; /* Official Blue */
+    color: white;
+}
+
+/* Utility to hide the overlay when logged in */
+.login-overlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+/* INSIDE style.css (Add to bottom) */
+
+/* --- LOGIN OVERLAY STYLES --- */
+.login-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 45, 98, 0.95); /* Deep Blue transparency */
+    z-index: 9999; /* Stays on top of everything */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.login-box {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    max-width: 400px;
+    width: 90%;
+    border-top: 5px solid #c0392b; /* Red accent */
+}
+
+.login-box h2 {
+    color: #002D62;
+    margin-top: 0;
+}
+
+.login-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.role-btn {
+    padding: 15px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.role-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.citizen-btn {
+    background: #27ae60; /* Green */
+    color: white;
+}
+
+.cabinet-btn {
+    background: #002D62; /* Official Blue */
+    color: white;
+}
+
+/* Utility to hide the overlay when logged in */
+.login-overlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+/* --- MINISTER DASHBOARD EXTENSIONS --- */
+
+.minister-extended-panel {
+    padding: 0 20px 20px 20px;
+    border-top: 2px dashed #e74c3c;
+    margin-top: 20px;
+}
+
+.minister-panel-row {
+    margin-bottom: 25px;
+}
+
+.minister-panel-row h3, .minister-panel-split h3 {
+    color: #c0392b;
+    border-left: 5px solid #c0392b;
+    padding-left: 10px;
+    margin-bottom: 15px;
+}
+
+/* Live Resolution Table */
+.live-feed-container {
+    max-height: 250px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+}
+
+.minister-table {
+    width: 100%;
+    font-size: 0.9em;
+}
+
+.minister-table th {
+    background: #c0392b; /* Red Header */
+    color: white;
+    position: sticky;
+    top: 0;
+}
+
+.minister-table tr:nth-child(even) { background: #fff5f5; }
+.minister-table tr:hover { background: #ffe6e6; }
+
+/* Split Layout for Resources & Coordination */
+.minister-panel-split {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.sub-panel {
+    flex: 1;
+    min-width: 300px;
+    background: white;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Resource Tracker Styling */
+.resource-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+}
+
+.resource-card {
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    border: 1px solid #eee;
+}
+
+.res-count { font-size: 1.5em; font-weight: bold; display: block; }
+.res-label { font-size: 0.85em; color: #666; }
+.res-status { font-size: 0.75em; font-weight: bold; padding: 2px 6px; border-radius: 4px; margin-top: 5px; display: inline-block;}
+.res-ready { background: #d4edda; color: #155724; }
+.res-partial { background: #fff3cd; color: #856404; }
+.res-short { background: #f8d7da; color: #721c24; }
+
+/* Coordination Board Styling */
+.dept-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    background: #f9f9f9;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.dept-icon {
+    width: 80px;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.dept-status {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.status-indicator {
+    font-size: 0.7em;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+.status-indicator.active { color: #27ae60; }
+.status-indicator.warning { color: #f39c12; }
+.status-indicator.alert { color: #c0392b; }
+
+.status-text { font-size: 0.85em; color: #444; }
+
+.live-log {
+    margin-top: 15px;
+    height: 100px;
+    overflow-y: auto;
+    background: #222;
+    color: #0f0;
+    font-family: monospace;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 0.8em;
+}
+
+.live-log ul { list-style: none; padding: 0; margin: 0; }
+.live-log li { margin-bottom: 4px; border-bottom: 1px solid #333; }
