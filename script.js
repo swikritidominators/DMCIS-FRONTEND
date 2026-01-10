@@ -536,7 +536,7 @@ function closeLinksModal() {
     }
 }
 // STEP F3: Backend base URL (LOCAL for now)
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = "https://dmcis-backend.onrender.com/";
 
 // Fetch ward data from backend
 fetch(`${API_BASE_URL}/api/wards`)
