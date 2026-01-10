@@ -1099,3 +1099,50 @@ header {
         bottom: 10px;
     }
 }
+/* INSIDE style.css */
+
+/* 1. Make images look clickable */
+.clickable-scheme {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.clickable-scheme:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    border: 2px solid #002D62;
+}
+
+/* 2. IMPORTANT: Pause the animation when hovering so user can click */
+.schemes-wrapper:hover .schemes-content {
+    animation-play-state: paused !important;
+}
+
+/* 3. Styles for the new Scheme Modal */
+.scheme-modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 800px; /* Wider than other modals for images */
+    text-align: center;
+    position: relative;
+}
+
+.scheme-image-container {
+    width: 100%;
+    max-height: 70vh; /* Prevent image from being too tall */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    background: #f4f4f4;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+#scheme-modal-img {
+    max-width: 100%;
+    max-height: 70vh;
+    object-fit: contain; /* Ensures the whole image is visible */
+}
+.notice-badge.urgent { background: #c0392b; }

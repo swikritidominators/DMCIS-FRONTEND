@@ -61,14 +61,14 @@
     <div class="marquee-label"> DELHI GOVT SCHEMES</div>
     <div class="schemes-wrapper">
         <div class="schemes-content">
-            <img src="s1.jpg" alt="Scheme 1">
-            <img src="s2.png" alt="Scheme 2">
-            <img src="s3.png" alt="Scheme 3">
-            <img src="s4.png" alt="Scheme 4">
-            <img src="s5.png" alt="Scheme 5">
-            <img src="s6.png" alt="Scheme 6">
-            <img src="s7.png" alt="Scheme 7">
-        </div>
+    <img src="s1.jpg" alt="Scheme 1" class="clickable-scheme" onclick="openSchemeModal(this.src, 'Scheme 1')">
+    <img src="s2.png" alt="Scheme 2" class="clickable-scheme" onclick="openSchemeModal(this.src, 'Scheme 2')">
+    <img src="s3.png" alt="Scheme 3" class="clickable-scheme" onclick="openSchemeModal(this.src, 'Scheme 3')">
+    <img src="s4.png" alt="Scheme 4" class="clickable-scheme" onclick="openSchemeModal(this.src, 'Scheme 4')">
+    <img src="s5.png" alt="Scheme 5" class="clickable-scheme" onclick="openSchemeModal(this.src, 'Scheme 5')">
+    <img src="s6.png" alt="Scheme 6" class="clickable-scheme" onclick="openSchemeModal(this.src, 'Scheme 6')">
+    <img src="s7.png" alt="Scheme 7" class="clickable-scheme" onclick="openSchemeModal(this.src, 'Scheme 7')">
+</div>
     </div>
 </div>
 <section class="map-section">
@@ -266,7 +266,7 @@
                 </li>
                  <li>
                     <a href="ns.pdf" target="_blank">
-                        <span class="notice-badge">URGENT</span>
+                        <span class="notice-badge urgent">URGENT</span>
                         <div class="notice-details">
                             <span class="notice-date">11 Dec 2025</span>
                             <span class="notice-title"> Activation of Emergency Response</span>
@@ -399,7 +399,18 @@
 <footer>
     <p>DMCIS 2026 | Unified MCD Control Room | <a href="#">Admin Login</a></p>
 </footer>
-
+<div id="schemeModal" class="modal hidden" onclick="closeSchemeModal()">
+    <div class="modal-content scheme-modal-content" onclick="event.stopPropagation()">
+        <span class="close-btn" onclick="closeSchemeModal()">×</span>
+        <h2 id="scheme-title">Government Scheme</h2>
+        <div class="scheme-image-container">
+            <img id="scheme-modal-img" src="" alt="Scheme Full View">
+        </div>
+        <p style="text-align:center; margin-top:10px; color:#666;">
+            (Click outside to close)
+        </p>
+    </div>
+</div>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <script src="script.js"></script>
 </body>

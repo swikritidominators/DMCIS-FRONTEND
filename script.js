@@ -594,4 +594,46 @@ function predictDrainRisk() {
       alert("AI prediction failed");
     });
 }
+/* INSIDE script.js (Add to the bottom or near other Modal Logic) */
 
+/* ------------------------------------
+   SCHEME MODAL LOGIC
+   ------------------------------------ */
+
+function openSchemeModal(imageSrc, title) {
+    const modal = document.getElementById("schemeModal");
+    const modalImg = document.getElementById("scheme-modal-img");
+    const modalTitle = document.getElementById("scheme-title");
+
+    if (modal && modalImg) {
+        modalImg.src = imageSrc;
+        if (title) modalTitle.innerText = title;
+        modal.classList.remove("hidden");
+    }
+}
+
+function closeSchemeModal() {
+    const modal = document.getElementById("schemeModal");
+    if (modal) {
+        modal.classList.add("hidden");
+        // Clear src to prevent old image flashing next time
+        setTimeout(() => {
+            document.getElementById("scheme-modal-img").src = "";
+        }, 200);
+    }
+}
+
+// Update the global window.onclick to include closing this new modal
+// Find your existing window.onclick and update it to look like this:
+
+window.onclick = function(event) {
+    const dModal = document.getElementById("downloadsModal");
+    const sModal = document.getElementById("drillDownModal");
+    const lModal = document.getElementById("linksModal");
+    const scModal = document.getElementById("schemeModal"); // <--- Add this
+
+    if (event.target == dModal) closeDownloadsModal();
+    if (event.target == sModal) closeDrillDown();
+    if (event.target == lModal) closeLinksModal();
+    if (event.target == scModal) closeSchemeModal(); // <--- Add this
+}
