@@ -803,3 +803,4 @@ function updateCoordinationBoard() {
 setInterval(simulateLiveResolutions, 3500); // New resolved report every 3.5s
 setInterval(updateResourceTracker, 5000);   // Update resources every 5s
 setInterval(updateCoordinationBoard, 4000); // Update coordination every 4s
+
